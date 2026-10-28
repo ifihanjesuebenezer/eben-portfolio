@@ -39,6 +39,8 @@ def head(title, desc, p, dark=False):
 <link rel="preload" href="{p}assets/fonts/schibsted-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{p}assets/css/style.css">
 <script>
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (!location.hash) window.scrollTo(0, 0);
   try {{
     if (sessionStorage.getItem('eben-transition')) {{ document.documentElement.classList.add('is-entering'); sessionStorage.removeItem('eben-transition'); }}
     if (sessionStorage.getItem('eben-visited')) document.documentElement.classList.add('no-loader');

@@ -394,7 +394,15 @@
   }
 
   /* ---------------- Boot ---------------- */
+  // always open pages at the top (or at the #section the link points to)
+  const startPosition = () => {
+    const target = location.hash && document.querySelector(location.hash);
+    if (target) { lenis ? lenis.scrollTo(target, { immediate: true }) : target.scrollIntoView(); }
+    else { lenis ? lenis.scrollTo(0, { immediate: true }) : window.scrollTo(0, 0); }
+  };
+  window.addEventListener("pageshow", startPosition);
   const boot = () => {
+    startPosition();
     if (reduce) { loader && loader.remove(); html.classList.remove("is-entering"); return; }
     setupReveals();
     runLoader();
