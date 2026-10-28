@@ -15,6 +15,7 @@ SOCIAL = {
 GSAP = "assets/vendor/gsap.min.js"
 ST = "assets/vendor/ScrollTrigger.min.js"
 LENIS = "assets/vendor/lenis.min.js"
+FIGMA_PORTFOLIO = "https://www.figma.com/design/Sp9hHC3WiIq77BEGOhXxiL/Eben-s-Portfolio-Site?node-id=0-1"
 
 
 def roll(text):
@@ -246,7 +247,7 @@ def case_page(slug, name, services, year_role, gallery_html, next_slug, next_nam
   <section class="gallery" aria-label="{name} work">
     {gallery_html}
   </section>
-  <div class="case-more"><a class="pill pill--navy" href="{p}{more_href}" data-magnetic="0.4">{roll("View More")}</a></div>
+  <div class="case-more"><a class="pill pill--navy" href="{FIGMA_PORTFOLIO}" target="_blank" rel="noopener" data-magnetic="0.4">{roll("View More")}<span class="sr-only"> (opens Figma in a new tab)</span></a></div>
   <a class="next-case" href="{p}work/{next_slug}.html">
     <span class="next-case__label">Next project</span>
     <span class="next-case__title">{next_name} <img src="{p}assets/img/arrow-a.svg" alt=""></span>
