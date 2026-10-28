@@ -114,10 +114,10 @@ def img(src, alt, p, eager=False, extra=""):
 # Landing page
 # --------------------------------------------------------------------------
 WORK = [
-    dict(title="Freddie Co.", tags="Brand Design / Email Design / Static Ads", href="work/freddie-co.html", preview="hover-freddie.png", arrow="arrow-a.svg"),
-    dict(title="Kwikish", tags="Brand Design / Email Design / Static Ads", href="work/kwikish.html", preview="hover-kwikish.png", arrow="arrow-a.svg"),
-    dict(title="Pulse/Makina", tags="Brand Design / Social Media / Editorial / Email Design", href=None, preview="hover-pulse.png", arrow="arrow-a.svg", soon=True),
-    dict(title="Laplandia Vodka", tags="Brand Design / Static Ads / Editorial", href="work/laplandia-vodka.html", preview="hover-laplandia.png", arrow="arrow-a.svg"),
+    dict(title="Freddie Co.", tags="Brand Design / Email Design / Static Ads", href="work/freddie-co.html", preview="hover-freddie.webp", arrow="arrow-a.svg"),
+    dict(title="Kwikish", tags="Brand Design / Email Design / Static Ads", href="work/kwikish.html", preview="hover-kwikish.webp", arrow="arrow-a.svg"),
+    dict(title="Pulse/Makina", tags="Brand Design / Social Media / Editorial / Email Design", href=None, preview="hover-pulse.webp", arrow="arrow-a.svg", soon=True),
+    dict(title="Laplandia Vodka", tags="Brand Design / Static Ads / Editorial", href="work/laplandia-vodka.html", preview="hover-laplandia.webp", arrow="arrow-a.svg"),
     dict(title="Other Ads Design", tags=None, href=None, preview=None, arrow="arrow-a.svg", soon=True),
     dict(title="Other Email Marketing Projects", tags=None, href=None, preview=None, arrow="arrow-a.svg", soon=True),
 ]
@@ -166,12 +166,12 @@ def index():
         for c, y, r in EXPERIENCE
     )
     roles = '<span>/</span><span>Email Designer</span><span>/</span><span>Brand Designer</span><span>/</span><span>Art Director</span>'
-    strip_cards = "".join(f'<div class="strip__card">{img("strip.png", "Eben portrait", p)}</div>' for _ in range(5))
+    strip_cards = "".join(f'<div class="strip__card">{img("strip.webp", "Eben portrait", p)}</div>' for _ in range(5))
     body = f"""{head("Ifihanjesu Eben — Brand, Email & Art Direction", "Ifihanjesu Eben is a multidisciplinary designer specialising in brand design, art direction, social presence, lifecycle and email marketing design.", p)}
 {nav(p, home=True)}
 <main>
   <section class="hero" aria-label="Intro">
-    <div class="hero__media">{img("hero.png", "Portrait of Eben", p, eager=True)}</div>
+    <div class="hero__media">{img("hero.webp", "Portrait of Eben", p, eager=True)}</div>
     <h1 class="sr-only">Ifihanjesu Eben — Email Designer, Brand Designer, Art Director</h1>
     <div class="hero__marquee" data-marquee="70" data-react="dir" aria-hidden="true">
       <div class="marquee__track"><div class="marquee__group">{roles}</div></div>
@@ -191,7 +191,7 @@ def index():
   </section>
 
   <section class="work dark" id="work">
-    <div class="work__bg" data-parallax="0.06" aria-hidden="true">{img("work-bg.png", "", p)}</div>
+    <div class="work__bg" data-parallax="0.06" aria-hidden="true">{img("work-bg.webp", "", p)}</div>
     <div class="row">
       <h2 class="label" data-reveal>Work</h2>
       <ul class="row__body work-list">
@@ -203,7 +203,7 @@ def index():
   <section class="experience" id="experience">
     <div class="row"><h2 class="label" data-reveal>Experience</h2></div>
     <div class="experience__grid">
-      <div class="experience__photo" data-reveal-img>{img("about-portrait.png", "Eben in a brown suit", p)}</div>
+      <div class="experience__photo" data-reveal-img>{img("about-portrait.webp", "Eben in a brown suit", p)}</div>
       <ul class="exp-list" data-stagger>
         {exp}
       </ul>
@@ -236,7 +236,7 @@ def case_page(slug, name, services, year_role, gallery_html, next_slug, next_nam
 {nav(p)}
 <main>
   <section class="case-hero">
-    <div class="case-hero__media">{img("hero.png", "", p, eager=True)}</div>
+    <div class="case-hero__media">{img("hero.webp", "", p, eager=True)}</div>
     <h1 class="case-hero__title" data-intro>{name}</h1>
     <p class="case-hero__meta" data-intro-fade>{year_role}</p>
   </section>
@@ -258,8 +258,8 @@ def case_page(slug, name, services, year_role, gallery_html, next_slug, next_nam
 
 def freddie():
     p = "../"
-    slides = "".join(tile(f"fc-slide-{i}.png", f"Freddie Co. brand slide {i}", p) for i in [1, 2, 3, 4, 5, 6])
-    emails = "".join(tile(f"fc-email-{i}.png", f"Freddie Co. email design {i}", p) for i in [1, 2, 3, 4, 5, 6, 7, 8])
+    slides = "".join(tile(f"fc-slide-{i}.webp", f"Freddie Co. brand slide {i}", p) for i in [1, 2, 3, 4, 5, 6])
+    emails = "".join(tile(f"fc-email-{i}.webp", f"Freddie Co. email design {i}", p) for i in [1, 2, 3, 4, 5, 6, 7, 8])
     g = f'<div class="g-freddie__slides">{slides}</div>\n    <div class="g-freddie__emails">{emails}</div>'
     case_page("freddie-co", "Freddie Co", "Brand Design / Email Design / Static Ads", "Graphic Designer — 2024", g, "kwikish", "Kwikish", "work/kwikish.html")
 
@@ -267,10 +267,10 @@ def freddie():
 def kwikish():
     p = "../"
     cols = [
-        [("kw-19may.png", "281/1098"), ("kw-welcome-3b.png", "280/1609")],
-        [("kw-9june.png", "279/1050"), ("kw-promo-orange.png", "1/1"), ("kw-promo-green.png", "1/1"), ("kw-12may.png", "280/1021")],
-        [("kw-welcome-3.png", "280/1503"), ("kw-8july.png", "280/1031")],
-        [("kw-thursday.png", "279/1620"), ("kw-22may.png", "279/1091")],
+        [("kw-19may.webp", "281/1098"), ("kw-welcome-3b.webp", "280/1609")],
+        [("kw-9june.webp", "279/1050"), ("kw-promo-orange.webp", "1/1"), ("kw-promo-green.webp", "1/1"), ("kw-12may.webp", "280/1021")],
+        [("kw-welcome-3.webp", "280/1503"), ("kw-8july.webp", "280/1031")],
+        [("kw-thursday.webp", "279/1620"), ("kw-22may.webp", "279/1091")],
     ]
     html = []
     n = 0
@@ -287,10 +287,10 @@ def kwikish():
 def laplandia():
     p = "../"
     order = [
-        ("lp-howdoyou.png", "How do you like your vodka"), ("lp-halloween.png", "Halloween"), ("lp-christmas.png", "Christmas"),
-        ("lp-insta-1.png", "Instagram post"), ("lp-bilberry-2.png", "Mini Bilberry"), ("lp-bottle-2.png", "What's in the bottle"),
-        ("lp-insta-2.png", "Instagram post"), ("lp-bilberry-3.png", "Mini Bilberry"), ("lp-bottle-3.png", "What's in the bottle"),
-        ("lp-insta-3.png", "Instagram post"), ("lp-bilberry-4.png", "Mini Bilberry"), ("lp-bottle-4.png", "What's in the bottle"),
+        ("lp-howdoyou.webp", "How do you like your vodka"), ("lp-halloween.webp", "Halloween"), ("lp-christmas.webp", "Christmas"),
+        ("lp-insta-1.webp", "Instagram post"), ("lp-bilberry-2.webp", "Mini Bilberry"), ("lp-bottle-2.webp", "What's in the bottle"),
+        ("lp-insta-2.webp", "Instagram post"), ("lp-bilberry-3.webp", "Mini Bilberry"), ("lp-bottle-3.webp", "What's in the bottle"),
+        ("lp-insta-3.webp", "Instagram post"), ("lp-bilberry-4.webp", "Mini Bilberry"), ("lp-bottle-4.webp", "What's in the bottle"),
     ]
     g = '<div class="g-laplandia">' + "".join(tile(s, f"Laplandia Vodka — {a}", p) for s, a in order) + "</div>"
     case_page("laplandia-vodka", "Laplandia Vodka", "Brand Design / Static Ads / Editorial", "Brand Design — Static Ads", g, "freddie-co", "Freddie Co", "contact.html")
@@ -301,7 +301,7 @@ def laplandia():
 # --------------------------------------------------------------------------
 def contact():
     p = ""
-    portrait = f'<div class="contact__portrait" data-reveal-img>{img("contact-portrait.png", "Portrait of Eben", p, eager=True)}</div>'
+    portrait = f'<div class="contact__portrait" data-reveal-img>{img("contact-portrait.webp", "Portrait of Eben", p, eager=True)}</div>'
     body = f"""{head("Contact — Ifihanjesu Eben", "Get in touch with Ifihanjesu Eben for brand design, email design and art direction work.", p, dark=True)}
 {nav(p)}
 <main class="contact dark">
@@ -328,7 +328,7 @@ def contact():
       </div>
     </div>
     <div class="contact__right">
-      <div class="contact__portrait contact__portrait-m">{img("contact-portrait.png", "", p)}</div>
+      <div class="contact__portrait contact__portrait-m">{img("contact-portrait.webp", "", p)}</div>
       <h1 class="contact__title" data-intro>Let’s build something cool</h1>
       <form class="form" id="contact-form" novalidate data-stagger>
         <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name" required></div>
