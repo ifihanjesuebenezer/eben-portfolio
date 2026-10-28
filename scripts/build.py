@@ -130,7 +130,7 @@ EXPERIENCE = [
     ("Studio Scopus", "2026", "Design Partner"),
     ("Pulse/Makina", "2025", "Brand Designer"),
     ("Freddie Co", "2024", "Graphic Designer"),
-    ("Tention Marketing", "2024", "Painting Studio Manager"),
+    ("Tention Marketing", "2024", "Retention Marketing Designer"),
 ]
 
 
