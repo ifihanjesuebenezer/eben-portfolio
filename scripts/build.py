@@ -248,7 +248,6 @@ def case_page(slug, name, services, year_role, gallery_html, next_slug, next_nam
   <section class="case-hero">
     <div class="case-hero__media">{img("hero.webp", "", p, eager=True)}</div>
     <h1 class="case-hero__title" data-intro>{name}</h1>
-    <p class="case-hero__meta" data-intro-fade>{year_role}</p>
   </section>
   <section class="case-services"><p class="label" data-reveal>Services: <span class="sep"></span>{services}</p></section>
   <section class="gallery" aria-label="{name} work">
