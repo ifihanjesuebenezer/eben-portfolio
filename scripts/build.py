@@ -15,7 +15,7 @@ SOCIAL = {
 GSAP = "assets/vendor/gsap.min.js"
 ST = "assets/vendor/ScrollTrigger.min.js"
 LENIS = "assets/vendor/lenis.min.js"
-WEB3FORMS_KEY = ""  # paste the access key from web3forms.com here
+WEB3FORMS_KEY = "5aaf31ed-c1ff-4d60-81c3-8690c062d927"  # Web3Forms public access key (safe to expose)
 FIGMA_PORTFOLIO = "https://www.figma.com/design/Sp9hHC3WiIq77BEGOhXxiL/Eben-s-Portfolio-Site?node-id=0-1"
 
 
