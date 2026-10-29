@@ -91,12 +91,41 @@
     if (!firstVisit || reduce || cameFromTransition) { loader.remove(); return intro(); }
     try { sessionStorage.setItem("eben-visited", "1"); } catch (e) {}
     lenis && lenis.stop();
+    const mark = $(".loader__mark", loader);
     const logo = $(".loader__logo", loader);
+    const ring = $(".loader__progress", loader);
+    const pct = $(".loader__pct", loader);
+    logo.classList.add("is-driven"); // JS takes over the rotation from the CSS idle spin
+    gsap.set(logo, { rotation: 0 });
+    // real progress: images on the page that have finished loading
+    const imgs = $$("img").filter((i) => i.loading !== "lazy");
+    const loaded = () => imgs.filter((i) => i.complete).length / Math.max(imgs.length, 1);
+    const prog = { v: 0 };
+    const render = () => {
+      ring.style.strokeDashoffset = String(100 - prog.v);
+      pct.textContent = `${Math.round(prog.v)}%`;
+    };
     const tl = gsap.timeline();
-    // logo grows in while it spins (CSS keeps it rolling), holds, then shrinks away as the curtain lifts
-    tl.fromTo(logo, { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: "expo.out" })
-      .to(logo, { scale: 0.85, opacity: 0, duration: 0.6, ease: "power3.in" }, "+=0.9")
-      .to(loader, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut" }, "-=0.2")
+    tl.fromTo(mark, { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: "expo.out" });
+    // four loading beats: each beat the logo snaps a quarter turn and the ring fills another 25%
+    [25, 50, 75, 100].forEach((target, i) => {
+      tl.to(logo, { rotation: (i + 1) * 90, duration: 0.55, ease: "back.inOut(1.6)" }, i === 0 ? 0.25 : ">-0.05")
+        .to(prog, { v: target, duration: 0.55, ease: "power2.inOut", onUpdate: render }, "<");
+      // never claim more than has actually loaded; wait (up to ~2.5s) for slow connections
+      tl.add(() => {
+        if (loaded() * 100 + 1 < target && target < 100) {
+          tl.pause();
+          const t0 = performance.now();
+          const wait = () => (loaded() * 100 + 1 >= target || performance.now() - t0 > 2500 ? tl.resume() : requestAnimationFrame(wait));
+          wait();
+        }
+      });
+      tl.to({}, { duration: 0.12 });
+    });
+    tl.to(logo, { rotation: "+=360", duration: 0.7, ease: "power3.in" })
+      .to(mark, { scale: 0.85, opacity: 0, duration: 0.5, ease: "power3.in" }, "-=0.35")
+      .to(pct, { opacity: 0, duration: 0.3 }, "<")
+      .to(loader, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut" }, "-=0.15")
       .add(() => { loader.remove(); lenis && lenis.start(); })
       .add(intro(), "-=0.7");
   }
