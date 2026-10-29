@@ -35,7 +35,8 @@ def head(title, desc, p, dark=False):
 <meta property="og:description" content="{desc}">
 <meta property="og:image" content="/assets/img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="{p}assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="{p}assets/img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="{p}assets/img/apple-touch-icon.png">
 <link rel="preload" href="{p}assets/fonts/schibsted-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{p}assets/css/style.css">
 <script>
@@ -91,6 +92,7 @@ def footer_bottom():
 def footer(p):
     return f"""<footer class="footer" id="contact">
   <div class="footer__glow" aria-hidden="true"></div>
+  <img class="footer__logo" src="{p}assets/img/logo.webp" alt="Eben logo" width="481" height="481" loading="lazy" decoding="async">
   <h2 class="footer__headline">Eben is working with brands all over the globe.</h2>
   <div class="footer__cta" data-reveal><a class="pill" href="{p}contact.html" data-magnetic="0.4">{roll("Get in touch")}</a></div>
   {footer_bottom()}

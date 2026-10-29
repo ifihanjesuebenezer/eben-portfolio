@@ -269,6 +269,13 @@
         });
       },
     });
+    // footer logo: pops in, then turns as the footer scrolls into view; spins on hover
+    const logo = $(".footer__logo");
+    if (logo) {
+      gsap.from(logo, { scale: 0.4, opacity: 0, duration: 1.4, ease: "expo.out", scrollTrigger: { trigger: logo, start: "top 92%" } });
+      gsap.fromTo(logo, { rotation: -90 }, { rotation: 90, ease: "none", scrollTrigger: { trigger: logo.closest(".footer"), start: "top bottom", end: "bottom bottom", scrub: 0.8 } });
+      if (fine) logo.addEventListener("mouseenter", () => gsap.to(logo, { rotation: "+=180", duration: 1, ease: "expo.out", overwrite: "auto" }));
+    }
     // footer headline
     const foot = $(".footer__headline");
     if (foot) {
