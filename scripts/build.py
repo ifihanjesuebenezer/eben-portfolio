@@ -301,7 +301,7 @@ def freddie():
     slides = "".join(tile(f"fc-slide-{i}.webp", f"Freddie Co. brand slide {i}", p) for i in [1, 2, 3, 4, 5, 6])
     emails = [(f"fc-email-{i}.webp", f"Freddie Co. email design {i}") for i in range(1, 9)]
     g = f'<div class="g-freddie__slides">{slides}</div>\n    {masonry(balance(emails, 4), p, "g-masonry--spaced")}'
-    case_page("freddie-co", "Freddie Co", "Brand Design / Email Design / Static Ads", "Graphic Designer — 2024", g, "kwikish", "Kwikish", "work/kwikish.html")
+    case_page("freddie-co", "Freddie Co", "Brand Design / Email Design / Static Ads", "Graphic Designer — 2024", g, "kwikish", "Kwikish", "work/kwikish.html", hero="fc-hero.webp", hero_pos="center 42%")
 
 
 def kwikish():
