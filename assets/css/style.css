@@ -184,7 +184,7 @@ a:hover .roll > span, button:hover .roll > span, .roll-parent:hover .roll > span
 .work { position: relative; color: #fff; padding: calc(177 * var(--s)) 0 calc(180 * var(--s)); overflow: hidden; }
 .work__bg { position: absolute; inset: -12% 0; z-index: 0; }
 .work__bg img { width: 100%; height: 100%; object-fit: cover; }
-.work__bg::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.8); }
+.work__bg::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.88); }
 .work .row { position: relative; z-index: 1; }
 .work-list { list-style: none; }
 .work-item { border-top: 1px solid rgba(241,241,241,.35); }
