@@ -388,7 +388,7 @@
     tick(); setInterval(tick, 15000);
   }
 
-  /* ---------------- Contact form → email ---------------- */
+  /* ---------------- Contact form → Web3Forms (falls back to email app) ---------------- */
   const form = $("#contact-form");
   if (form) {
     const status = $(".form__status", form);
@@ -402,9 +402,38 @@
       });
       if (!ok) { status.textContent = "Please fill in the highlighted fields."; return; }
       const d = Object.fromEntries(new FormData(form));
-      const body = `${d.message}\n\n— ${d.name}\n${d.email}`;
-      window.location.href = `mailto:designedbyeben@gmail.com?subject=${encodeURIComponent(d.subject || "Project enquiry")}&body=${encodeURIComponent(body)}`;
-      status.textContent = "Opening your email app…";
+      const mailtoFallback = () => {
+        const body = `${d.message}\n\n— ${d.name}\n${d.email}`;
+        window.location.href = `mailto:designedbyeben@gmail.com?subject=${encodeURIComponent(d.subject || "Project enquiry")}&body=${encodeURIComponent(body)}`;
+      };
+      const key = form.dataset.formKey;
+      if (!key) { mailtoFallback(); status.textContent = "Opening your email app…"; return; }
+      // send straight from the page via Web3Forms (free), landing in Eben's inbox
+      const btn = form.querySelector('button[type="submit"]');
+      btn.disabled = true; btn.style.opacity = ".6";
+      status.textContent = "Sending…";
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: key,
+          subject: `Portfolio enquiry: ${d.subject || "New message"}`,
+          from_name: "designedbyeben.com",
+          name: d.name, email: d.email, replyto: d.email,
+          message: d.message, botcheck: d.botcheck || "",
+        }),
+      })
+        .then((r) => r.json())
+        .then((res) => {
+          if (!res.success) throw new Error(res.message || "Failed");
+          form.reset();
+          status.textContent = "Thanks! Your message is on its way. I’ll get back to you soon.";
+          gsap.fromTo(status, { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out" });
+        })
+        .catch(() => {
+          status.innerHTML = 'Something went wrong. Please email <a href="mailto:designedbyeben@gmail.com" style="text-decoration:underline">designedbyeben@gmail.com</a> directly.';
+        })
+        .finally(() => { btn.disabled = false; btn.style.opacity = ""; });
     });
     $$("input, textarea", form).forEach((f) => f.addEventListener("input", () => f.closest(".field").classList.remove("is-invalid")));
   }

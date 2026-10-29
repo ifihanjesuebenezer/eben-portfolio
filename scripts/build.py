@@ -15,6 +15,7 @@ SOCIAL = {
 GSAP = "assets/vendor/gsap.min.js"
 ST = "assets/vendor/ScrollTrigger.min.js"
 LENIS = "assets/vendor/lenis.min.js"
+WEB3FORMS_KEY = ""  # paste the access key from web3forms.com here
 FIGMA_PORTFOLIO = "https://www.figma.com/design/Sp9hHC3WiIq77BEGOhXxiL/Eben-s-Portfolio-Site?node-id=0-1"
 
 
@@ -369,7 +370,8 @@ def contact():
     <div class="contact__right">
       <div class="contact__portrait contact__portrait-m">{img("contact-portrait.webp", "", p)}</div>
       <h1 class="contact__title" data-intro>Let’s build something cool</h1>
-      <form class="form" id="contact-form" novalidate data-stagger>
+      <form class="form" id="contact-form" novalidate data-stagger data-form-key="{WEB3FORMS_KEY}">
+        <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name" required></div>
         <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="you@brand.com" required></div>
         <div class="field"><label for="f-subject">Subject</label><input id="f-subject" name="subject" type="text" placeholder="For brand design work enquiry"></div>
