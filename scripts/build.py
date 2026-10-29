@@ -240,6 +240,34 @@ def tile(src, alt, p, style=""):
     return f'<div class="tile" data-cursor="View" data-reveal-img{s}>{img(src, alt, p)}</div>'
 
 
+def natural_ar(src):
+    from PIL import Image
+    w, h = Image.open(ROOT / "assets" / "img" / src).size
+    return f"{w}/{h}"
+
+
+def balance(items, ncols):
+    """Distribute (src, alt) items into columns of roughly equal height, keeping order within a column."""
+    from PIL import Image
+    cols = [[] for _ in range(ncols)]
+    heights = [0.0] * ncols
+    for src, alt in items:
+        w, h = Image.open(ROOT / "assets" / "img" / src).size
+        i = heights.index(min(heights))
+        cols[i].append((src, alt))
+        heights[i] += h / w
+    return cols
+
+
+def masonry(cols, p, extra_cls=""):
+    """Full, uncropped images in floating columns (each column drifts at its own speed on scroll)."""
+    html = "".join(
+        '<div class="g-masonry__col">' + "".join(tile(src, alt, p, f"aspect-ratio:{natural_ar(src)}") for src, alt in col) + "</div>"
+        for col in cols
+    )
+    return f'<div class="g-masonry {extra_cls}">{html}</div>'
+
+
 def case_page(slug, name, services, year_role, gallery_html, next_slug, next_name, more_href):
     p = "../"
     body = f"""{head(f"{name} — Ifihanjesu Eben", f"{name}: {services}. Case study by Ifihanjesu Eben.", p)}
@@ -268,28 +296,28 @@ def case_page(slug, name, services, year_role, gallery_html, next_slug, next_nam
 def freddie():
     p = "../"
     slides = "".join(tile(f"fc-slide-{i}.webp", f"Freddie Co. brand slide {i}", p) for i in [1, 2, 3, 4, 5, 6])
-    emails = "".join(tile(f"fc-email-{i}.webp", f"Freddie Co. email design {i}", p) for i in [1, 2, 3, 4, 5, 6, 7, 8])
-    g = f'<div class="g-freddie__slides">{slides}</div>\n    <div class="g-freddie__emails">{emails}</div>'
+    emails = [(f"fc-email-{i}.webp", f"Freddie Co. email design {i}") for i in range(1, 9)]
+    g = f'<div class="g-freddie__slides">{slides}</div>\n    {masonry(balance(emails, 4), p, "g-masonry--spaced")}'
     case_page("freddie-co", "Freddie Co", "Brand Design / Email Design / Static Ads", "Graphic Designer — 2024", g, "kwikish", "Kwikish", "work/kwikish.html")
 
 
 def kwikish():
     p = "../"
     cols = [
-        [("kw-19may.webp", "281/1098"), ("kw-welcome-3b.webp", "280/1609")],
-        [("kw-9june.webp", "279/1050"), ("kw-promo-orange.webp", "1/1"), ("kw-promo-green.webp", "1/1"), ("kw-12may.webp", "280/1021")],
-        [("kw-welcome-3.webp", "280/1503"), ("kw-8july.webp", "280/1031")],
-        [("kw-thursday.webp", "279/1620"), ("kw-22may.webp", "279/1091")],
+        ["kw-19may.webp", "kw-welcome-3b.webp"],
+        ["kw-9june.webp", "kw-promo-orange.webp", "kw-promo-green.webp", "kw-12may.webp"],
+        ["kw-welcome-3.webp", "kw-8july.webp"],
+        ["kw-thursday.webp", "kw-22may.webp"],
     ]
-    html = []
     n = 0
+    named = []
     for c in cols:
-        tiles = []
-        for src, ar in c:
+        col = []
+        for src in c:
             n += 1
-            tiles.append(tile(src, f"Kwikish email and ad design {n}", p, f"aspect-ratio:{ar}"))
-        html.append(f'<div class="g-kwikish__col">{"".join(tiles)}</div>')
-    g = f'<div class="g-kwikish">{"".join(html)}</div>'
+            col.append((src, f"Kwikish email and ad design {n}"))
+        named.append(col)
+    g = masonry(named, p)
     case_page("kwikish", "Kwikish", "Brand Design / Email Design / Static Ads", "Brand &amp; Email Design", g, "laplandia-vodka", "Laplandia Vodka", "work/laplandia-vodka.html")
 
 

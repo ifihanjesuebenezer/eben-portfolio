@@ -261,9 +261,11 @@
     // kwikish columns: staggered parallax speeds (desktop)
     ScrollTrigger.matchMedia({
       "(min-width: 768px)": () => {
-        $$(".g-kwikish__col").forEach((col, i) => {
-          const amt = [0, -80, 40, -120][i % 4];
-          gsap.to(col, { y: amt, ease: "none", scrollTrigger: { trigger: ".g-kwikish", start: "top bottom", end: "bottom top", scrub: true } });
+        $$(".g-masonry").forEach((grid) => {
+          $$(".g-masonry__col", grid).forEach((col, i) => {
+            const amt = [0, -80, 40, -120][i % 4];
+            gsap.to(col, { y: amt, ease: "none", scrollTrigger: { trigger: grid, start: "top bottom", end: "bottom top", scrub: true } });
+          });
         });
       },
     });
