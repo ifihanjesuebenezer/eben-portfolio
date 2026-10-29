@@ -187,7 +187,6 @@ def index():
     <div class="hero__marquee" data-marquee="70" data-react="dir" aria-hidden="true">
       <div class="marquee__track"><div class="marquee__group">{roles}</div></div>
     </div>
-    <div class="hero__scroll" aria-hidden="true">Scroll <i></i></div>
   </section>
 
   <section class="about" id="about">
