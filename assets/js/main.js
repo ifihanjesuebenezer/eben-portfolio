@@ -401,6 +401,13 @@
     else { lenis ? lenis.scrollTo(0, { immediate: true }) : window.scrollTo(0, 0); }
   };
   window.addEventListener("pageshow", startPosition);
+  // some hosts restore the previous scroll position late (after load);
+  // keep re-asserting the start position until the visitor scrolls themselves
+  let userScrolled = false;
+  ["wheel", "touchmove", "keydown", "mousedown"].forEach((ev) => window.addEventListener(ev, () => (userScrolled = true), { once: true, passive: true }));
+  const reassert = () => { if (!userScrolled) startPosition(); };
+  window.addEventListener("load", reassert);
+  [150, 400, 900, 1600].forEach((ms) => setTimeout(reassert, ms));
   const boot = () => {
     startPosition();
     if (reduce) { loader && loader.remove(); html.classList.remove("is-entering"); return; }
