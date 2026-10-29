@@ -257,7 +257,7 @@ def index():
   <section class="hero" aria-label="Intro">
     <div class="hero__media">{img("hero.webp", "Portrait of Eben", p, eager=True)}</div>
     <h1 class="sr-only">Ifihanjesu Eben — Email Designer, Brand Designer and Art Director</h1>
-    <p class="hero__greeting" data-intro data-greeting><span>Hello!</span> <span>I’m Eben.</span></p>
+    <p class="hero__greeting" data-greeting aria-label="Hello! I’m Eben."><span class="g-line">Hello!</span> <span class="g-line">I’m Eben.</span></p>
     <div class="hero__marquee" data-marquee="70" data-react="dir" aria-hidden="true">
       <div class="marquee__track"><div class="marquee__group">{roles}</div></div>
     </div>

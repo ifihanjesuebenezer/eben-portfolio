@@ -25,6 +25,57 @@
     else (typeof target === "number" ? window.scrollTo({ top: target, behavior: "smooth" }) : target.scrollIntoView({ behavior: "smooth" }));
   };
 
+  /* ---------------- Hero greeting: per-letter 3D entrance, waving "!", hover bounce, cursor tilt ---------------- */
+  function splitChars(el) {
+    $$(".g-line", el).forEach((line) => {
+      const text = line.textContent;
+      line.textContent = "";
+      line.setAttribute("aria-hidden", "true");
+      [...text].forEach((ch) => {
+        const s = document.createElement("span");
+        s.className = ch === " " ? "char is-space" : "char";
+        s.textContent = ch === " " ? "\u00a0" : ch;
+        line.appendChild(s);
+      });
+    });
+    return $$(".char", el);
+  }
+  function greetingIn(el) {
+    const chars = el._chars || (el._chars = splitChars(el));
+    const tl = gsap.timeline();
+    tl.from(chars, {
+      yPercent: 115, rotateX: -95, rotateZ: () => gsap.utils.random(-12, 12), opacity: 0, filter: "blur(14px)",
+      duration: 1.4, ease: "expo.out", stagger: { each: 0.045, from: "start" },
+    });
+    // the "!" gives a little wave once everything has landed
+    const bang = chars.find((c) => c.textContent === "!");
+    if (bang) tl.to(bang, { rotation: 16, duration: 0.14, yoyo: true, repeat: 5, ease: "sine.inOut", transformOrigin: "50% 100%" }, "-=0.35");
+    // a light sweep across the letters
+    tl.fromTo(chars, { color: "#ffffff" }, { color: "#ff7a2e", duration: 0.25, stagger: 0.03, yoyo: true, repeat: 1, ease: "power1.inOut" }, "-=0.9");
+    tl.add(() => greetingInteractive(el, chars));
+    return tl;
+  }
+  function greetingInteractive(el, chars) {
+    if (!fine) return;
+    chars.forEach((c) => {
+      if (c.classList.contains("is-space")) return;
+      c.addEventListener("mouseenter", () => {
+        gsap.timeline()
+          .to(c, { yPercent: -22, rotation: gsap.utils.random(-10, 10), color: "#ff7a2e", duration: 0.22, ease: "power2.out" })
+          .to(c, { yPercent: 0, rotation: 0, color: "#f1f1f1", duration: 0.7, ease: "elastic.out(1, 0.35)" });
+      });
+    });
+    const rx = gsap.quickTo(el, "rotationX", { duration: 1, ease: "power3" });
+    const ry = gsap.quickTo(el, "rotationY", { duration: 1, ease: "power3" });
+    const hero = el.closest(".hero");
+    hero.addEventListener("mousemove", (e) => {
+      const r = hero.getBoundingClientRect();
+      ry(((e.clientX - r.left) / r.width - 0.5) * 10);
+      rx(-((e.clientY - r.top) / r.height - 0.5) * 8);
+    });
+    hero.addEventListener("mouseleave", () => { rx(0); ry(0); });
+  }
+
   /* ---------------- Text splitting ---------------- */
   function splitWords(el) {
     const walk = (node) => {
@@ -77,6 +128,8 @@
     if (nav) tl.from(nav.children, { yPercent: -120, opacity: 0, duration: 1.2, stagger: 0.08 }, 0.25);
     const marquee = $(".hero__marquee");
     if (marquee) tl.from(marquee, { yPercent: 110, opacity: 0, duration: 1.6 }, 0.3);
+    const greet = $("[data-greeting]");
+    if (greet) tl.add(greetingIn(greet), 0.35);
     $$("[data-intro]").forEach((el, i) => {
       const lines = splitLines(el);
       tl.from(lines, { yPercent: 110, duration: 1.4, stagger: 0.09 }, 0.3 + i * 0.1);
@@ -252,7 +305,7 @@
     });
     // greeting drifts up and fades as you scroll into the page
     const greet = $("[data-greeting]");
-    if (greet) gsap.to(greet, { yPercent: -35, opacity: 0, ease: "none", scrollTrigger: { trigger: greet.closest(".hero"), start: "top top", end: "60% top", scrub: true } });
+    if (greet) gsap.to(greet, { yPercent: -45, opacity: 0, letterSpacing: "0.06em", filter: "blur(6px)", ease: "none", scrollTrigger: { trigger: greet.closest(".hero"), start: "top top", end: "60% top", scrub: true } });
     // hero image drifts and dims as you leave
     const heroMedia = $(".hero__media, .case-hero__media");
     if (heroMedia) {
