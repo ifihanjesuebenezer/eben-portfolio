@@ -172,7 +172,6 @@ def index():
     )
     roles = '<span>/</span><span>Email Designer</span><span>/</span><span>Brand Designer</span><span>/</span><span>Art Director</span>'
     strip = [
-        ("strip.webp", "Portrait of Eben", "center 12%"),
         ("strip-2.webp", "Kwikish email design on a laptop", "center 55%"),
         ("strip-3.webp", "Team in Makina \u201cRewrite your longevity\u201d t-shirts", "center center"),
         ("strip-4.webp", "Design work in progress on a laptop", "center 55%"),
