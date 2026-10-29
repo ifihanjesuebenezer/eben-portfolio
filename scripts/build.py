@@ -321,7 +321,7 @@ def kwikish():
             col.append((src, f"Kwikish email and ad design {n}"))
         named.append(col)
     g = masonry(named, p)
-    case_page("kwikish", "Kwikish", "Brand Design / Email Design / Static Ads", "Brand &amp; Email Design", g, "laplandia-vodka", "Laplandia Vodka", "work/laplandia-vodka.html")
+    case_page("kwikish", "Kwikish", "Brand Design / Email Design / Static Ads", "Brand &amp; Email Design", g, "laplandia-vodka", "Laplandia Vodka", "work/laplandia-vodka.html", hero="kw-hero.webp", hero_pos="center 40%")
 
 
 def laplandia():
