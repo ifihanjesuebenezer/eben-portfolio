@@ -269,12 +269,18 @@
         });
       },
     });
-    // footer logo: pops in, then turns as the footer scrolls into view; spins on hover
+    // footer logo: pops in, then rotates continuously
     const logo = $(".footer__logo");
     if (logo) {
       gsap.from(logo, { scale: 0.4, opacity: 0, duration: 1.4, ease: "expo.out", scrollTrigger: { trigger: logo, start: "top 92%" } });
-      gsap.fromTo(logo, { rotation: -90 }, { rotation: 90, ease: "none", scrollTrigger: { trigger: logo.closest(".footer"), start: "top bottom", end: "bottom bottom", scrub: 0.8 } });
-      if (fine) logo.addEventListener("mouseenter", () => gsap.to(logo, { rotation: "+=180", duration: 1, ease: "expo.out", overwrite: "auto" }));
+      // continuous loop; speeds up on hover and while scrolling fast
+      const spin = gsap.to(logo, { rotation: "+=360", duration: 10, ease: "none", repeat: -1 });
+      const speed = (v, d = 0.8) => gsap.to(spin, { timeScale: v, duration: d, ease: "power2.out", overwrite: true });
+      if (fine) {
+        logo.addEventListener("mouseenter", () => speed(5, 0.4));
+        logo.addEventListener("mouseleave", () => speed(1, 1.2));
+      }
+      if (lenis) lenis.on("scroll", ({ velocity }) => { if (Math.abs(velocity) > 2) { speed(1 + Math.min(Math.abs(velocity) * 0.15, 4), 0.3); clearTimeout(logo._t); logo._t = setTimeout(() => speed(1, 1.2), 200); } });
     }
     // footer headline
     const foot = $(".footer__headline");
