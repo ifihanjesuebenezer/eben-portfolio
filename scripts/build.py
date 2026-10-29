@@ -171,7 +171,14 @@ def index():
         for c, y, r in EXPERIENCE
     )
     roles = '<span>/</span><span>Email Designer</span><span>/</span><span>Brand Designer</span><span>/</span><span>Art Director</span>'
-    strip_cards = "".join(f'<div class="strip__card">{img("strip.webp", "Eben portrait", p)}</div>' for _ in range(5))
+    strip = [
+        ("strip.webp", "Portrait of Eben", "center 12%"),
+        ("strip-2.webp", "Kwikish email design on a laptop", "center 55%"),
+        ("strip-3.webp", "Team in Makina \u201cRewrite your longevity\u201d t-shirts", "center center"),
+        ("strip-4.webp", "Design work in progress on a laptop", "center 55%"),
+        ("strip-5.webp", "Eben at dinner", "center 40%"),
+    ]
+    strip_cards = "".join(f'<div class="strip__card">{img(s, a, p, extra=f"style=\"object-position:{pos}\"")}</div>' for s, a, pos in strip)
     body = f"""{head("Ifihanjesu Eben — Brand, Email & Art Direction", "Ifihanjesu Eben is a multidisciplinary designer specialising in brand design, art direction, social presence, lifecycle and email marketing design.", p)}
 {nav(p, home=True)}
 <main>
