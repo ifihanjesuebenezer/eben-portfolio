@@ -250,6 +250,9 @@
       const amt = parseFloat(el.dataset.parallax);
       gsap.fromTo(el, { yPercent: -amt * 100 }, { yPercent: amt * 100, ease: "none", scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true } });
     });
+    // greeting drifts up and fades as you scroll into the page
+    const greet = $("[data-greeting]");
+    if (greet) gsap.to(greet, { yPercent: -35, opacity: 0, ease: "none", scrollTrigger: { trigger: greet.closest(".hero"), start: "top top", end: "60% top", scrub: true } });
     // hero image drifts and dims as you leave
     const heroMedia = $(".hero__media, .case-hero__media");
     if (heroMedia) {

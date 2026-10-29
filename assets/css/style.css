@@ -175,6 +175,13 @@ a:hover .roll > span, button:hover .roll > span, .roll-parent:hover .roll > span
 .marquee__track { display: inline-flex; will-change: transform; }
 .marquee__group { display: inline-flex; align-items: center; gap: calc(44.229 * var(--s)); padding-right: calc(44.229 * var(--s)); }
 .hero__marquee .marquee__group { font-family: var(--display); font-size: calc(150.378 * var(--s)); line-height: 1.1; }
+/* greeting: same size as the scrolling roles, aligned with the "Ifihanjesu Eben." nav title */
+.hero__greeting {
+  position: absolute; left: var(--gutter); top: calc(120 * var(--s)); z-index: 1;
+  font-family: var(--display); font-size: calc(150.378 * var(--s)); line-height: 1; letter-spacing: -0.01em;
+  color: var(--off-white); will-change: transform, opacity;
+}
+.hero__greeting > span, .hero__greeting .line-mask { display: block; }
 .hero__scroll {
   position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%);
   font-size: calc(14 * var(--s)); color: var(--grey); writing-mode: vertical-rl; letter-spacing: .08em;
@@ -460,6 +467,7 @@ a:hover .roll > span, button:hover .roll > span, .roll-parent:hover .roll > span
   .hero { min-height: 560px; }
   .hero__marquee { bottom: 36px; }
   .hero__marquee .marquee__group { font-size: 64px; gap: 20px; padding-right: 20px; }
+  .hero__greeting { font-size: 64px; top: 96px; left: 20px; }
   .hero__scroll { display: none; }
   .hero__media img { object-position: 60% 25%; }
 

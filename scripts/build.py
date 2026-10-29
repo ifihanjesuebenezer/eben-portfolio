@@ -257,6 +257,7 @@ def index():
   <section class="hero" aria-label="Intro">
     <div class="hero__media">{img("hero.webp", "Portrait of Eben", p, eager=True)}</div>
     <h1 class="sr-only">Ifihanjesu Eben — Email Designer, Brand Designer and Art Director</h1>
+    <p class="hero__greeting" data-intro data-greeting><span>Hello!</span> <span>I’m Eben.</span></p>
     <div class="hero__marquee" data-marquee="70" data-react="dir" aria-hidden="true">
       <div class="marquee__track"><div class="marquee__group">{roles}</div></div>
     </div>
@@ -266,7 +267,6 @@ def index():
     <div class="row">
       <h2 class="label" data-reveal>About</h2>
       <div class="row__body about__text" data-words>
-        <p>Hello! I’m Eben.</p>
         <p>A multidisciplinary designer shaping how brands look, feel, and connect with people. I specialise in brand design, art direction, social presence design, lifecycle design, and email marketing, creating thoughtful visual experiences that bridge creativity with commercial impact.</p>
         <p>From shaping a brand’s visual presence to crafting email experiences that drive engagement and retention, my work brings together strategy, aesthetics, and functionality to build brands that stand out, connect, and grow.</p>
       </div>
