@@ -242,7 +242,8 @@
       const img = el.querySelector("img");
       const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 92%" } });
       tl.fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.3, ease: "expo.out" });
-      if (img) tl.from(img, { scale: 1.2, duration: 1.4, ease: "expo.out" }, 0);
+      // gallery tiles keep their image untouched (no scale) so every design shows in full, top to bottom
+      if (img && !el.classList.contains("tile")) tl.from(img, { scale: 1.2, duration: 1.4, ease: "expo.out", clearProps: "transform" }, 0);
     });
     // work rows: divider draw + text rise
     $$(".work-item").forEach((row) => {

@@ -331,7 +331,7 @@ def laplandia():
         ("lp-insta-2.webp", "Instagram post"), ("lp-bilberry-3.webp", "Mini Bilberry"), ("lp-bottle-3.webp", "What's in the bottle"),
         ("lp-insta-3.webp", "Instagram post"), ("lp-bilberry-4.webp", "Mini Bilberry"), ("lp-bottle-4.webp", "What's in the bottle"),
     ]
-    g = '<div class="g-laplandia">' + "".join(tile(s, f"Laplandia Vodka — {a}", p) for s, a in order) + "</div>"
+    g = '<div class="g-laplandia">' + "".join(tile(s, f"Laplandia Vodka — {a}", p, f"aspect-ratio:{natural_ar(s)}") for s, a in order) + "</div>"
     case_page("laplandia-vodka", "Laplandia Vodka", "Brand Design / Static Ads / Editorial", "Brand Design — Static Ads", g, "freddie-co", "Freddie Co", "contact.html")
 
 
