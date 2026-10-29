@@ -271,13 +271,13 @@ def masonry(cols, p, extra_cls=""):
     return f'<div class="g-masonry {extra_cls}">{html}</div>'
 
 
-def case_page(slug, name, services, year_role, gallery_html, next_slug, next_name, more_href):
+def case_page(slug, name, services, year_role, gallery_html, next_slug, next_name, more_href, hero="hero.webp", hero_pos=None):
     p = "../"
     body = f"""{head(f"{name} — Ifihanjesu Eben", f"{name}: {services}. Case study by Ifihanjesu Eben.", p)}
 {nav(p)}
 <main>
   <section class="case-hero">
-    <div class="case-hero__media">{img("hero.webp", "", p, eager=True)}</div>
+    <div class="case-hero__media">{img(hero, "", p, eager=True, extra=(f'style="object-position:{hero_pos}"' if hero_pos else ""))}</div>
     <h1 class="case-hero__title" data-intro>{name}</h1>
   </section>
   <section class="case-services"><p class="label" data-reveal>Services: <span class="sep"></span>{services}</p></section>
@@ -333,7 +333,7 @@ def laplandia():
         ("lp-insta-3.webp", "Instagram post"), ("lp-bilberry-4.webp", "Mini Bilberry"), ("lp-bottle-4.webp", "What's in the bottle"),
     ]
     g = '<div class="g-laplandia">' + "".join(tile(s, f"Laplandia Vodka — {a}", p, f"aspect-ratio:{natural_ar(s)}") for s, a in order) + "</div>"
-    case_page("laplandia-vodka", "Laplandia Vodka", "Brand Design / Static Ads / Editorial", "Brand Design — Static Ads", g, "freddie-co", "Freddie Co", "contact.html")
+    case_page("laplandia-vodka", "Laplandia Vodka", "Brand Design / Static Ads / Editorial", "Brand Design — Static Ads", g, "freddie-co", "Freddie Co", "contact.html", hero="lp-hero.webp", hero_pos="center 45%")
 
 
 # --------------------------------------------------------------------------
