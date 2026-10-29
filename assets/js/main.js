@@ -51,7 +51,7 @@
     const bang = chars.find((c) => c.textContent === "!");
     if (bang) tl.to(bang, { rotation: 16, duration: 0.14, yoyo: true, repeat: 5, ease: "sine.inOut", transformOrigin: "50% 100%" }, "-=0.35");
     // a light sweep across the letters
-    tl.fromTo(chars, { color: "#ffffff" }, { color: "#ff7a2e", duration: 0.25, stagger: 0.03, yoyo: true, repeat: 1, ease: "power1.inOut" }, "-=0.9");
+    tl.fromTo(chars, { color: "#5d5d5d" }, { color: "#ff7a2e", duration: 0.25, stagger: 0.03, yoyo: true, repeat: 1, ease: "power1.inOut" }, "-=0.9");
     tl.add(() => greetingInteractive(el, chars));
     return tl;
   }
@@ -62,7 +62,7 @@
       c.addEventListener("mouseenter", () => {
         gsap.timeline()
           .to(c, { yPercent: -22, rotation: gsap.utils.random(-10, 10), color: "#ff7a2e", duration: 0.22, ease: "power2.out" })
-          .to(c, { yPercent: 0, rotation: 0, color: "#f1f1f1", duration: 0.7, ease: "elastic.out(1, 0.35)" });
+          .to(c, { yPercent: 0, rotation: 0, color: "#5d5d5d", duration: 0.7, ease: "elastic.out(1, 0.35)" });
       });
     });
     const rx = gsap.quickTo(el, "rotationX", { duration: 1, ease: "power3" });
