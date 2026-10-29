@@ -23,7 +23,29 @@ def roll(text):
     return f'<span class="roll"><span>{text}</span><span aria-hidden="true">{text}</span></span>'
 
 
-def head(title, desc, p, dark=False):
+SITE = "https://www.designedbyeben.com"
+PERSON = {
+    "@type": "Person",
+    "@id": SITE + "/#eben",
+    "name": "Ifihanjesu Ebenezer",
+    "alternateName": ["Ifihanjesu Eben", "Eben"],
+    "url": SITE + "/",
+    "image": SITE + "/assets/img/about-portrait.webp",
+    "email": "mailto:designedbyeben@gmail.com",
+    "jobTitle": "Email Designer & Brand Designer",
+    "description": "Email designer, brand designer and lifecycle designer for DTC and ecommerce brands, specialising in email marketing and retention marketing design.",
+    "knowsAbout": ["Email design", "Email marketing", "Retention marketing", "Lifecycle design", "Lifecycle marketing", "Brand design", "Graphic design", "Art direction", "Static ads", "Klaviyo email design"],
+    "address": {"@type": "PostalAddress", "addressLocality": "Lagos", "addressCountry": "NG"},
+    "sameAs": [SOCIAL["linkedin"], SOCIAL["twitter"], SOCIAL["instagram"]],
+}
+
+
+def jsonld(obj):
+    import json
+    return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False) + "</script>"
+
+
+def head(title, desc, p, dark=False, path="/", schema=None, og_type="website"):
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -31,11 +53,26 @@ def head(title, desc, p, dark=False):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content="{desc}">
+<meta name="author" content="Ifihanjesu Ebenezer">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="{SITE}{path}">
 <meta name="theme-color" content="#161616">
+<meta property="og:type" content="{og_type}">
+<meta property="og:site_name" content="Ifihanjesu Eben — Email & Brand Designer">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="{SITE}{path}">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="/assets/img/og.jpg">
+<meta property="og:image" content="{SITE}/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ebenunlimited">
+<meta name="twitter:creator" content="@ebenunlimited">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{SITE}/assets/img/og.jpg">
+{jsonld(schema) if schema else ""}
 <link rel="icon" href="{p}assets/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="{p}assets/img/apple-touch-icon.png">
 <link rel="preload" href="{p}assets/img/logo.webp" as="image">
@@ -188,12 +225,23 @@ def index():
         ("strip-5.webp", "Eben at dinner", "center 40%"),
     ]
     strip_cards = "".join(f'<div class="strip__card">{img(s, a, p, extra=f"style=\"object-position:{pos}\"")}</div>' for s, a, pos in strip)
-    body = f"""{head("Ifihanjesu Eben — Brand, Email & Art Direction", "Ifihanjesu Eben is a multidisciplinary designer specialising in brand design, art direction, social presence, lifecycle and email marketing design.", p)}
+    body = f"""{head(
+        "Ifihanjesu Eben — Email Designer, Brand Designer & Lifecycle Designer",
+        "Email designer and brand designer for DTC and ecommerce brands. Lifecycle design, email marketing and retention marketing that turns subscribers into repeat customers. Lagos-based, working worldwide.",
+        p, path="/",
+        schema={"@context": "https://schema.org", "@graph": [
+            PERSON,
+            {"@type": "WebSite", "@id": SITE + "/#site", "url": SITE + "/", "name": "Ifihanjesu Eben — Email & Brand Designer", "publisher": {"@id": SITE + "/#eben"}, "inLanguage": "en"},
+            {"@type": "ProfessionalService", "@id": SITE + "/#service", "name": "Ifihanjesu Eben — Email & Brand Design", "url": SITE + "/", "image": SITE + "/assets/img/og.jpg", "founder": {"@id": SITE + "/#eben"}, "areaServed": "Worldwide",
+             "address": {"@type": "PostalAddress", "addressLocality": "Lagos", "addressCountry": "NG"},
+             "serviceType": ["Email design", "Email marketing design", "Retention marketing", "Lifecycle design", "Brand design", "Graphic design", "Art direction"]},
+        ]},
+    )}
 {nav(p, home=True)}
 <main>
   <section class="hero" aria-label="Intro">
     <div class="hero__media">{img("hero.webp", "Portrait of Eben", p, eager=True)}</div>
-    <h1 class="sr-only">Ifihanjesu Eben — Email Designer, Brand Designer, Art Director</h1>
+    <h1 class="sr-only">Ifihanjesu Eben — Email Designer, Brand Designer and Art Director</h1>
     <div class="hero__marquee" data-marquee="70" data-react="dir" aria-hidden="true">
       <div class="marquee__track"><div class="marquee__group">{roles}</div></div>
     </div>
@@ -278,9 +326,17 @@ def masonry(cols, p, extra_cls=""):
     return f'<div class="g-masonry {extra_cls}">{html}</div>'
 
 
-def case_page(slug, name, services, year_role, gallery_html, next_slug, next_name, more_href, hero="hero.webp", hero_pos=None):
+def case_page(slug, name, services, year_role, gallery_html, next_slug, next_name, more_href, hero="hero.webp", hero_pos=None, seo_title=None, seo_desc=None):
+    seo_title = seo_title or f"{name} — {services}"
+    seo_desc = seo_desc or f"{name} case study: {services}. By Ifihanjesu Eben, email and brand designer."
     p = "../"
-    body = f"""{head(f"{name} — Ifihanjesu Eben", f"{name}: {services}. Case study by Ifihanjesu Eben.", p)}
+    body = f"""{head(
+        f"{seo_title} | Ifihanjesu Eben",
+        seo_desc, p, path=f"/work/{slug}", og_type="article",
+        schema={"@context": "https://schema.org", "@type": "CreativeWork", "name": f"{name} — {services}",
+                "url": f"{SITE}/work/{slug}", "description": seo_desc, "creator": PERSON, "keywords": services.replace(" / ", ", "),
+                "image": f"{SITE}/assets/img/{hero}"},
+    )}
 {nav(p)}
 <main>
   <section class="case-hero">
@@ -305,10 +361,12 @@ def case_page(slug, name, services, year_role, gallery_html, next_slug, next_nam
 
 def freddie():
     p = "../"
-    slides = "".join(tile(f"fc-slide-{i}.webp", f"Freddie Co. brand slide {i}", p) for i in [1, 2, 3, 4, 5, 6])
-    emails = [(f"fc-email-{i}.webp", f"Freddie Co. email design {i}") for i in range(1, 9)]
+    slides = "".join(tile(f"fc-slide-{i}.webp", f"Freddie Co. brand guidelines slide {i}", p) for i in [1, 2, 3, 4, 5, 6])
+    emails = [(f"fc-email-{i}.webp", f"Freddie Co. email design — promotional and lifecycle email {i}") for i in range(1, 9)]
     g = f'<div class="g-freddie__slides">{slides}</div>\n    {masonry(balance(emails, 4), p, "g-masonry--spaced")}'
-    case_page("freddie-co", "Freddie Co", "Brand Design / Email Design / Static Ads", "Graphic Designer — 2024", g, "kwikish", "Kwikish", "work/kwikish.html", hero="fc-hero.webp", hero_pos="center 42%")
+    case_page("freddie-co", "Freddie Co", "Brand Design / Email Design / Static Ads", "Graphic Designer — 2024", g, "kwikish", "Kwikish", "work/kwikish.html", hero="fc-hero.webp", hero_pos="center 42%",
+              seo_title="Freddie Co — Email Design & Brand Design Case Study",
+              seo_desc="Email design, brand guidelines and static ads for Freddie Co, a DTC laundry and cleaning brand. Promotional and lifecycle emails built for retention marketing.")
 
 
 def kwikish():
@@ -325,10 +383,12 @@ def kwikish():
         col = []
         for src in c:
             n += 1
-            col.append((src, f"Kwikish email and ad design {n}"))
+            col.append((src, f"Kwikish email marketing design {n}"))
         named.append(col)
     g = masonry(named, p)
-    case_page("kwikish", "Kwikish", "Brand Design / Email Design / Static Ads", "Brand &amp; Email Design", g, "laplandia-vodka", "Laplandia Vodka", "work/laplandia-vodka.html", hero="kw-hero.webp", hero_pos="center 40%")
+    case_page("kwikish", "Kwikish", "Brand Design / Email Design / Static Ads", "Brand &amp; Email Design", g, "laplandia-vodka", "Laplandia Vodka", "work/laplandia-vodka.html", hero="kw-hero.webp", hero_pos="center 40%",
+              seo_title="Kwikish — Email Marketing & Brand Design Case Study",
+              seo_desc="Email marketing design, welcome flows and static ads for Kwikish, a jollof paste and pantry food brand. Lifecycle emails designed to drive repeat purchases.")
 
 
 def laplandia():
@@ -340,7 +400,9 @@ def laplandia():
         ("lp-insta-3.webp", "Instagram post"), ("lp-bilberry-4.webp", "Mini Bilberry"), ("lp-bottle-4.webp", "What's in the bottle"),
     ]
     g = '<div class="g-laplandia">' + "".join(tile(s, f"Laplandia Vodka — {a}", p, f"aspect-ratio:{natural_ar(s)}") for s, a in order) + "</div>"
-    case_page("laplandia-vodka", "Laplandia Vodka", "Brand Design / Static Ads / Editorial", "Brand Design — Static Ads", g, "freddie-co", "Freddie Co", "contact.html", hero="lp-hero.webp", hero_pos="center 45%")
+    case_page("laplandia-vodka", "Laplandia Vodka", "Brand Design / Static Ads / Editorial", "Brand Design — Static Ads", g, "freddie-co", "Freddie Co", "contact.html", hero="lp-hero.webp", hero_pos="center 45%",
+              seo_title="Laplandia Vodka — Brand Design & Static Ads Case Study",
+              seo_desc="Brand design, social static ads and editorial graphics for Laplandia Vodka, a Finnish premium vodka brand. Graphic design and art direction by Ifihanjesu Eben.")
 
 
 # --------------------------------------------------------------------------
@@ -349,7 +411,10 @@ def laplandia():
 def contact():
     p = ""
     portrait = f'<div class="contact__portrait" data-reveal-img>{img("contact-portrait.webp", "Portrait of Eben", p, eager=True)}</div>'
-    body = f"""{head("Contact — Ifihanjesu Eben", "Get in touch with Ifihanjesu Eben for brand design, email design and art direction work.", p, dark=True)}
+    body = f"""{head("Contact — Hire an Email Designer & Brand Designer | Ifihanjesu Eben",
+             "Hire Ifihanjesu Eben for email design, email marketing, lifecycle design, retention marketing and brand design. Send a message or email designedbyeben@gmail.com.",
+             p, dark=True, path="/contact",
+             schema={"@context": "https://schema.org", "@type": "ContactPage", "url": SITE + "/contact", "about": PERSON})}
 {nav(p)}
 <main class="contact dark">
   <div class="footer__glow" aria-hidden="true"></div>
