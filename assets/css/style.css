@@ -69,14 +69,16 @@ body.is-dark ::selection, .dark ::selection { background: var(--off-white); colo
 
 /* ---------- Loader + page transition ---------- */
 .loader {
-  position: fixed; inset: 0; z-index: 200; background: var(--black); color: var(--off-white);
-  display: flex; align-items: flex-end; justify-content: space-between;
-  padding: calc(40 * var(--s)) var(--gutter);
+  position: fixed; inset: 0; z-index: 200; background: var(--black);
+  display: flex; align-items: center; justify-content: center;
   pointer-events: none;
 }
-.loader__name { font-family: var(--display); font-size: calc(40 * var(--s)); overflow: hidden; }
-.loader__name span { display: inline-block; }
-.loader__count { font-family: var(--display); font-size: calc(150 * var(--s)); line-height: 0.8; font-variant-numeric: tabular-nums; }
+.loader__logo {
+  width: min(38vw, 300px); height: auto;
+  animation: loaderSpin 2.4s linear infinite;
+  filter: drop-shadow(0 0 60px rgba(255, 90, 10, .25));
+}
+@keyframes loaderSpin { to { transform: rotate(360deg); } }
 html.no-loader .loader { display: none; }
 
 .transition {

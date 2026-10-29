@@ -38,6 +38,7 @@ def head(title, desc, p, dark=False):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{p}assets/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="{p}assets/img/apple-touch-icon.png">
+<link rel="preload" href="{p}assets/img/logo.webp" as="image">
 <link rel="preload" href="{p}assets/fonts/schibsted-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{p}assets/css/style.css">
 <script>
@@ -51,8 +52,7 @@ def head(title, desc, p, dark=False):
 </head>
 <body{' class="is-dark"' if dark else ''}>
 <div class="loader" aria-hidden="true">
-  <div class="loader__name">{''.join(f'<span>{c if c != " " else "&nbsp;"}</span>' for c in "Ifihanjesu Eben.")}</div>
-  <div class="loader__count">000</div>
+  <img class="loader__logo" src="{p}assets/img/logo.webp" alt="" width="481" height="481" fetchpriority="high">
 </div>
 <div class="transition" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>

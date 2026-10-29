@@ -91,12 +91,12 @@
     if (!firstVisit || reduce || cameFromTransition) { loader.remove(); return intro(); }
     try { sessionStorage.setItem("eben-visited", "1"); } catch (e) {}
     lenis && lenis.stop();
-    const count = $(".loader__count", loader);
-    const obj = { v: 0 };
+    const logo = $(".loader__logo", loader);
     const tl = gsap.timeline();
-    tl.from($$(".loader__name span", loader), { yPercent: 110, duration: 0.9, ease: "expo.out", stagger: 0.05 })
-      .to(obj, { v: 100, duration: 1.5, ease: "power3.inOut", onUpdate: () => (count.textContent = String(Math.round(obj.v)).padStart(3, "0")) }, 0)
-      .to(loader, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut" }, "+=0.1")
+    // logo grows in while it spins (CSS keeps it rolling), holds, then shrinks away as the curtain lifts
+    tl.fromTo(logo, { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 1, ease: "expo.out" })
+      .to(logo, { scale: 0.85, opacity: 0, duration: 0.6, ease: "power3.in" }, "+=0.9")
+      .to(loader, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut" }, "-=0.2")
       .add(() => { loader.remove(); lenis && lenis.start(); })
       .add(intro(), "-=0.7");
   }
