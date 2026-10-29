@@ -78,6 +78,8 @@ def head(title, desc, p, dark=False, path="/", schema=None, og_type="website"):
 <link rel="preload" href="{p}assets/img/logo.webp" as="image">
 <link rel="preload" href="{p}assets/fonts/schibsted-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{p}assets/css/style.css">
+<script>window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }};</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <script>
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   if (!location.hash) window.scrollTo(0, 0);

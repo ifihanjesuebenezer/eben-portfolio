@@ -455,6 +455,7 @@
         .then((r) => r.json())
         .then((res) => {
           if (!res.success) throw new Error(res.message || "Failed");
+          window.va && window.va("event", { name: "Contact form sent" });
           form.reset();
           status.textContent = "Thanks! Your message is on its way. I’ll get back to you soon.";
           gsap.fromTo(status, { y: 8, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out" });
