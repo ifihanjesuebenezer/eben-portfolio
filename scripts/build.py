@@ -45,6 +45,18 @@ def jsonld(obj):
     return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False) + "</script>"
 
 
+LOADER_JS = (ROOT / "assets" / "js" / "loader.js").read_text()
+
+
+def ver(rel):
+    import hashlib
+    return rel + "?v=" + hashlib.sha1((ROOT / rel).read_bytes()).hexdigest()[:10]
+
+
+CSS_URL = ver("assets/css/style.css")
+MAIN_JS_URL = ver("assets/js/main.js")
+
+
 def head(title, desc, p, dark=False, path="/", schema=None, og_type="website"):
     return f"""<!doctype html>
 <html lang="en">
@@ -77,7 +89,7 @@ def head(title, desc, p, dark=False, path="/", schema=None, og_type="website"):
 <link rel="apple-touch-icon" href="{p}assets/img/apple-touch-icon.png">
 <link rel="preload" href="{p}assets/img/logo.webp" as="image">
 <link rel="preload" href="{p}assets/fonts/schibsted-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="{p}assets/css/style.css">
+<link rel="stylesheet" href="{p}{CSS_URL}">
 <script>window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }};</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
@@ -90,7 +102,7 @@ def head(title, desc, p, dark=False, path="/", schema=None, og_type="website"):
 </script>
 </head>
 <body{' class="is-dark"' if dark else ''}>
-<div class="loader" aria-hidden="true">
+<div class="loader" id="loader" aria-hidden="true">
   <div class="loader__mark">
     <svg class="loader__ring" viewBox="0 0 100 100" aria-hidden="true">
       <circle class="loader__track" cx="50" cy="50" r="48"></circle>
@@ -100,6 +112,7 @@ def head(title, desc, p, dark=False, path="/", schema=None, og_type="website"):
   </div>
   <div class="loader__pct">0%</div>
 </div>
+<script>{LOADER_JS}</script>
 <div class="transition" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
 """
@@ -151,7 +164,7 @@ def scripts(p):
     return f"""<script src="{p}{GSAP}" defer></script>
 <script src="{p}{ST}" defer></script>
 <script src="{p}{LENIS}" defer></script>
-<script src="{p}assets/js/main.js" defer></script>
+<script src="{p}{MAIN_JS_URL}" defer></script>
 </body>
 </html>
 """

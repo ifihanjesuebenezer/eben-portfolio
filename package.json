@@ -1,0 +1,12 @@
+{
+  "name": "eben-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:pages": "python3 scripts/build.py",
+    "test": "node tests/loader.test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.48.2"
+  }
+}

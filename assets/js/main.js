@@ -61,7 +61,6 @@
   }
 
   /* ---------------- Loader & page transitions ---------------- */
-  const loader = $(".loader");
   const transition = $(".transition");
   const firstVisit = (() => { try { return !sessionStorage.getItem("eben-visited"); } catch (e) { return true; } })();
   const cameFromTransition = html.classList.contains("is-entering");
@@ -86,48 +85,16 @@
     return tl;
   }
 
-  function runLoader() {
-    if (!loader) return intro();
-    if (!firstVisit || reduce || cameFromTransition) { loader.remove(); return intro(); }
-    try { sessionStorage.setItem("eben-visited", "1"); } catch (e) {}
+  // The loader runs on its own (assets/js/loader.js, inlined in each page). main.js only
+  // waits for its "done" signal before playing the hero intro, and never controls it.
+  function afterLoader(cb) {
+    const run = () => { try { cb(); } catch (e) { console.error(e); } };
+    if (!document.getElementById("loader") || window.__ebenLoaderDone) return run();
     lenis && lenis.stop();
-    const mark = $(".loader__mark", loader);
-    const logo = $(".loader__logo", loader);
-    const ring = $(".loader__progress", loader);
-    const pct = $(".loader__pct", loader);
-    logo.classList.add("is-driven"); // JS takes over the rotation from the CSS idle spin
-    gsap.set(logo, { rotation: 0 });
-    // real progress: images on the page that have finished loading
-    const imgs = $$("img").filter((i) => i.loading !== "lazy");
-    const loaded = () => imgs.filter((i) => i.complete).length / Math.max(imgs.length, 1);
-    const prog = { v: 0 };
-    const render = () => {
-      ring.style.strokeDashoffset = String(100 - prog.v);
-      pct.textContent = `${Math.round(prog.v)}%`;
-    };
-    const tl = gsap.timeline();
-    tl.fromTo(mark, { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: "expo.out" });
-    // four loading beats: each beat the logo snaps a quarter turn and the ring fills another 25%
-    [25, 50, 75, 100].forEach((target, i) => {
-      tl.to(logo, { rotation: (i + 1) * 90, duration: 0.55, ease: "back.inOut(1.6)" }, i === 0 ? 0.25 : ">-0.05")
-        .to(prog, { v: target, duration: 0.55, ease: "power2.inOut", onUpdate: render }, "<");
-      // never claim more than has actually loaded; wait (up to ~2.5s) for slow connections
-      tl.add(() => {
-        if (loaded() * 100 + 1 < target && target < 100) {
-          tl.pause();
-          const t0 = performance.now();
-          const wait = () => (loaded() * 100 + 1 >= target || performance.now() - t0 > 2500 ? tl.resume() : requestAnimationFrame(wait));
-          wait();
-        }
-      });
-      tl.to({}, { duration: 0.12 });
-    });
-    tl.to(logo, { rotation: "+=360", duration: 0.7, ease: "power3.in" })
-      .to(mark, { scale: 0.85, opacity: 0, duration: 0.5, ease: "power3.in" }, "-=0.35")
-      .to(pct, { opacity: 0, duration: 0.3 }, "<")
-      .to(loader, { clipPath: "inset(0 0 100% 0)", duration: 1.1, ease: "expo.inOut" }, "-=0.15")
-      .add(() => { loader.remove(); lenis && lenis.start(); })
-      .add(intro(), "-=0.7");
+    let fired = false;
+    const go = () => { if (fired) return; fired = true; lenis && lenis.start(); run(); };
+    document.addEventListener("eben:loader-done", go, { once: true });
+    setTimeout(go, 6000); // never wait forever
   }
 
   // intercept internal links for wipe transition
@@ -483,14 +450,17 @@
   const reassert = () => { if (!userScrolled) startPosition(); };
   window.addEventListener("load", reassert);
   [150, 400, 900, 1600].forEach((ms) => setTimeout(reassert, ms));
+  let booted = false;
   const boot = () => {
-    startPosition();
-    if (reduce) { loader && loader.remove(); html.classList.remove("is-entering"); return; }
-    setupReveals();
-    runLoader();
-    ScrollTrigger.refresh();
+    if (booted) return;
+    booted = true;
+    try { startPosition(); } catch (e) { console.error(e); }
+    if (reduce) { html.classList.remove("is-entering"); return; }
+    try { setupReveals(); } catch (e) { console.error(e); } // a failing effect must never block the page
+    afterLoader(intro);
+    try { ScrollTrigger.refresh(); } catch (e) {}
   };
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot);
-  else window.addEventListener("load", boot);
+  // wait briefly for fonts so text splits correctly, but never more than 1.2s
+  Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise((r) => setTimeout(r, 1200))]).then(boot, boot);
   window.addEventListener("load", () => ScrollTrigger.refresh());
 })();
