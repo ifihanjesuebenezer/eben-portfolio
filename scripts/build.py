@@ -7,9 +7,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 
 SOCIAL = {
-    "linkedin": "https://www.linkedin.com/",
-    "twitter": "https://x.com/",
-    "instagram": "https://www.instagram.com/",
+    "linkedin": "https://www.linkedin.com/in/ifihanjesu-ebenezer-b473b716b/",
+    "twitter": "https://x.com/ebenunlimited",
+    "instagram": "https://www.instagram.com/eben_unlimited/",
 }
 
 GSAP = "assets/vendor/gsap.min.js"
