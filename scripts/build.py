@@ -218,10 +218,15 @@ def work_item(w, p):
     return f'<li class="{cls}"{attr}><div class="work-item__link" aria-disabled="true">{inner}</div></li>'
 
 
-SHOWCASE = [  # swap these files for the real email designs (any height, ~600-900px wide)
-    ("sc-email-1.webp", "Email design 1"), ("sc-email-2.webp", "Email design 2"), ("sc-email-3.webp", "Email design 3"),
-    ("sc-email-4.webp", "Email design 4"), ("sc-email-5.webp", "Email design 5"), ("sc-email-6.webp", "Email design 6"),
+SHOWCASE = [  # email designs gliding at the top of Work (files in assets/img, ~800px wide, any height)
+    ("sc-email-1.webp", "Kiaura Eyewear email design — Evolve Your Look"),
+    ("sc-email-2.webp", "JIYU skincare email design — Polish. Don't punish."),
+    ("sc-email-3.webp", "Rythm at-home blood test email design — Your Body Keeps Receipts"),
+    ("sc-email-4.webp", "Mad Rabbit tattoo care email design — winter routine"),
+    ("sc-email-5.webp", "Athletic apparel restock email design — Back In Your Rotation"),
+    ("sc-email-6.webp", "Final Boss Sour candy email design — Your Tongue Has Been Warned"),
 ]
+SHOWCASE_SPEED = 55  # px per second at desktop column width (~408px)
 
 
 def showcase(p):
@@ -230,11 +235,16 @@ def showcase(p):
         groups = [SHOWCASE[i::n] for i in range(n)]
         out = []
         for ci, g in enumerate(groups):
-            cards = "".join(f'<div class="showcase__card">{img(src, alt, p)}</div>' for src, alt in g)
+            from PIL import Image
+            sizes = [Image.open(ROOT / "assets" / "img" / src).size for src, _ in g]
+            dims = [f'width="{w}" height="{h}"' for w, h in sizes]
+            cards = "".join(f'<div class="showcase__card">{img(src, alt, p, extra=d)}</div>' for (src, alt), d in zip(g, dims))
+            col_w, speed = (408, SHOWCASE_SPEED) if n == 3 else (170, 34)  # desktop vs mobile column width
+            dur = round(sum(h / w for w, h in sizes) * col_w / speed)
             dirc = "down" if ci % 2 else "up"
             # cards repeated twice so the loop is seamless (second copy hidden from screen readers)
             dup = cards.replace('alt="', 'aria-hidden="true" alt="')
-            out.append(f'<div class="showcase__col is-{dirc}" style="--dur:{38 + ci * 7}s"><div class="showcase__track">{cards}{dup}</div></div>')
+            out.append(f'<div class="showcase__col is-{dirc}" style="--dur:{dur + ci * 4}s"><div class="showcase__track">{cards}{dup}</div></div>')
         return "".join(out)
     return f"""<div class="showcase" aria-label="Email design showcase">
       <div class="showcase__stage">
