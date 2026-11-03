@@ -235,8 +235,7 @@ a:hover .roll > span, button:hover .roll > span, .roll-parent:hover .roll > span
 .work-list:hover .work-item__text { opacity: .35; }
 .work-list .work-item:hover .work-item__text { opacity: 1; transform: translateX(calc(16 * var(--s))); }
 /* ---------- Email showcase (inside Work) ---------- */
-.showcase { position: relative; z-index: 1; margin-top: calc(150 * var(--s)); }
-.showcase__head { margin-bottom: calc(40 * var(--s)); }
+.showcase { position: relative; z-index: 1; margin: calc(-40 * var(--s)) 0 calc(150 * var(--s)); }
 .showcase__stage { position: relative; height: calc(820 * var(--s)); overflow: hidden; padding: 0 var(--gutter); }
 /* top & bottom fade: masks the cards to transparent so they melt into the section's dark photo */
 .showcase__stage {
@@ -254,8 +253,7 @@ a:hover .roll > span, button:hover .roll > span, .roll-parent:hover .roll > span
 @keyframes showcaseUp { from { transform: translateY(0); } to { transform: translateY(calc(-50% - calc(14 * var(--s)))); } }
 @keyframes showcaseDown { from { transform: translateY(calc(-50% - calc(14 * var(--s)))); } to { transform: translateY(0); } }
 @media (max-width: 767px) {
-  .showcase { margin-top: 64px; }
-  .showcase__head { margin-bottom: 4px; }
+  .showcase { margin: -24px 0 56px; }
   .showcase__stage { height: 560px; padding: 0 20px; }
   .showcase__cols--desk { display: none; }
   .showcase__cols--mob { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }

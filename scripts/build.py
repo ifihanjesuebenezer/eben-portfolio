@@ -237,7 +237,6 @@ def showcase(p):
             out.append(f'<div class="showcase__col is-{dirc}" style="--dur:{38 + ci * 7}s"><div class="showcase__track">{cards}{dup}</div></div>')
         return "".join(out)
     return f"""<div class="showcase" aria-label="Email design showcase">
-      <div class="row showcase__head"><h3 class="label" data-reveal>Email Design</h3></div>
       <div class="showcase__stage">
         <div class="showcase__cols showcase__cols--desk">{cols(3)}</div>
         <div class="showcase__cols showcase__cols--mob">{cols(2)}</div>
@@ -301,13 +300,13 @@ def index():
 
   <section class="work dark" id="work">
     <div class="work__bg" data-parallax="0.06" aria-hidden="true">{img("work-bg.webp", "", p)}</div>
+    {showcase(p)}
     <div class="row">
       <h2 class="label" data-reveal>Work</h2>
       <ul class="row__body work-list">
       {items}
       </ul>
     </div>
-    {showcase(p)}
   </section>
 
   <section class="experience" id="experience">
