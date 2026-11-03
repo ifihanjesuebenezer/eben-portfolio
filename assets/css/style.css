@@ -234,6 +234,37 @@ a:hover .roll > span, button:hover .roll > span, .roll-parent:hover .roll > span
 }
 .work-list:hover .work-item__text { opacity: .35; }
 .work-list .work-item:hover .work-item__text { opacity: 1; transform: translateX(calc(16 * var(--s))); }
+/* ---------- Email showcase (inside Work) ---------- */
+.showcase { position: relative; z-index: 1; margin-top: calc(150 * var(--s)); }
+.showcase__head { margin-bottom: calc(40 * var(--s)); }
+.showcase__stage { position: relative; height: calc(820 * var(--s)); overflow: hidden; padding: 0 var(--gutter); }
+/* top & bottom fade: masks the cards to transparent so they melt into the section's dark photo */
+.showcase__stage {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28%, #000 72%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 28%, #000 72%, transparent 100%);
+}
+.showcase__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(28 * var(--s)); height: 100%; }
+.showcase__cols--mob { display: none; }
+.showcase__col { overflow: hidden; height: 100%; }
+.showcase__track { display: flex; flex-direction: column; gap: calc(28 * var(--s)); animation: showcaseUp var(--dur, 40s) linear infinite; will-change: transform; }
+.showcase__col.is-down .showcase__track { animation-name: showcaseDown; }
+.showcase__stage:hover .showcase__track { animation-play-state: paused; }
+.showcase__card { border-radius: 10px; overflow: hidden; background: #1c1c1c; flex: none; }
+.showcase__card img { width: 100%; height: auto; display: block; }
+@keyframes showcaseUp { from { transform: translateY(0); } to { transform: translateY(calc(-50% - calc(14 * var(--s)))); } }
+@keyframes showcaseDown { from { transform: translateY(calc(-50% - calc(14 * var(--s)))); } to { transform: translateY(0); } }
+@media (max-width: 767px) {
+  .showcase { margin-top: 64px; }
+  .showcase__head { margin-bottom: 4px; }
+  .showcase__stage { height: 560px; padding: 0 20px; }
+  .showcase__cols--desk { display: none; }
+  .showcase__cols--mob { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .showcase__track { gap: 12px; }
+  @keyframes showcaseUp { to { transform: translateY(calc(-50% - 6px)); } }
+  @keyframes showcaseDown { from { transform: translateY(calc(-50% - 6px)); } }
+}
+@media (prefers-reduced-motion: reduce) { .showcase__track { animation: none !important; } }
+
 .work-item:hover .work-item__arrow .is-active { opacity: 1; transform: rotate(90deg) scale(1.06); }
 .work-item:hover .work-item__arrow .is-default { opacity: 0; transform: rotate(90deg) scale(1.06); }
 .work-item.is-soon .work-item__link { cursor: default; }

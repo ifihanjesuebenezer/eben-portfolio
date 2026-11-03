@@ -218,6 +218,33 @@ def work_item(w, p):
     return f'<li class="{cls}"{attr}><div class="work-item__link" aria-disabled="true">{inner}</div></li>'
 
 
+SHOWCASE = [  # swap these files for the real email designs (any height, ~600-900px wide)
+    ("sc-email-1.webp", "Email design 1"), ("sc-email-2.webp", "Email design 2"), ("sc-email-3.webp", "Email design 3"),
+    ("sc-email-4.webp", "Email design 4"), ("sc-email-5.webp", "Email design 5"), ("sc-email-6.webp", "Email design 6"),
+]
+
+
+def showcase(p):
+    """Columns of email designs gliding up/down forever, faded top and bottom into the Work section."""
+    def cols(n):
+        groups = [SHOWCASE[i::n] for i in range(n)]
+        out = []
+        for ci, g in enumerate(groups):
+            cards = "".join(f'<div class="showcase__card">{img(src, alt, p)}</div>' for src, alt in g)
+            dirc = "down" if ci % 2 else "up"
+            # cards repeated twice so the loop is seamless (second copy hidden from screen readers)
+            dup = cards.replace('alt="', 'aria-hidden="true" alt="')
+            out.append(f'<div class="showcase__col is-{dirc}" style="--dur:{38 + ci * 7}s"><div class="showcase__track">{cards}{dup}</div></div>')
+        return "".join(out)
+    return f"""<div class="showcase" aria-label="Email design showcase">
+      <div class="row showcase__head"><h3 class="label" data-reveal>Email Design</h3></div>
+      <div class="showcase__stage">
+        <div class="showcase__cols showcase__cols--desk">{cols(3)}</div>
+        <div class="showcase__cols showcase__cols--mob">{cols(2)}</div>
+      </div>
+    </div>"""
+
+
 def index():
     p = ""
     items = "\n      ".join(work_item(w, p) for w in WORK)
@@ -280,6 +307,7 @@ def index():
       {items}
       </ul>
     </div>
+    {showcase(p)}
   </section>
 
   <section class="experience" id="experience">
