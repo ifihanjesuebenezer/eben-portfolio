@@ -247,7 +247,6 @@ a:hover .roll > span, button:hover .roll > span, .roll-parent:hover .roll > span
 .showcase__col { overflow: hidden; height: 100%; }
 .showcase__track { display: flex; flex-direction: column; gap: calc(28 * var(--s)); animation: showcaseUp var(--dur, 40s) linear infinite; will-change: transform; }
 .showcase__col.is-down .showcase__track { animation-name: showcaseDown; }
-.showcase__stage:hover .showcase__track { animation-play-state: paused; }
 .showcase__card { border-radius: 10px; overflow: hidden; background: #1c1c1c; flex: none; }
 .showcase__card img { width: 100%; height: auto; display: block; }
 @keyframes showcaseUp { from { transform: translateY(0); } to { transform: translateY(calc(-50% - calc(14 * var(--s)))); } }

@@ -226,7 +226,7 @@ SHOWCASE = [  # email designs gliding at the top of Work (files in assets/img, ~
     ("sc-email-5.webp", "Athletic apparel restock email design — Back In Your Rotation"),
     ("sc-email-6.webp", "Final Boss Sour candy email design — Your Tongue Has Been Warned"),
 ]
-SHOWCASE_SPEED = 55  # px per second at desktop column width (~408px)
+SHOWCASE_SPEED = 75  # px per second at desktop column width (~408px)
 
 
 def showcase(p):
@@ -239,7 +239,7 @@ def showcase(p):
             sizes = [Image.open(ROOT / "assets" / "img" / src).size for src, _ in g]
             dims = [f'width="{w}" height="{h}"' for w, h in sizes]
             cards = "".join(f'<div class="showcase__card">{img(src, alt, p, extra=d)}</div>' for (src, alt), d in zip(g, dims))
-            col_w, speed = (408, SHOWCASE_SPEED) if n == 3 else (170, 34)  # desktop vs mobile column width
+            col_w, speed = (408, SHOWCASE_SPEED) if n == 3 else (170, 46)  # desktop vs mobile column width
             dur = round(sum(h / w for w, h in sizes) * col_w / speed)
             dirc = "down" if ci % 2 else "up"
             # cards repeated twice so the loop is seamless (second copy hidden from screen readers)
