@@ -183,7 +183,6 @@ WORK = [
     dict(title="Kwikish", tags="Brand Design / Email Design / Static Ads", href="work/kwikish.html", preview="hover-kwikish.webp", arrow="arrow-a.svg"),
     dict(title="Other Email Marketing Projects", tags=None, href="https://www.figma.com/design/Sp9hHC3WiIq77BEGOhXxiL/Eben-s-Portfolio-Site?node-id=0-1", preview=None, arrow="arrow-a.svg", external=True),
     dict(title="Laplandia Vodka", tags="Brand Design / Static Ads / Editorial", href="work/laplandia-vodka.html", preview="hover-laplandia.webp", arrow="arrow-a.svg"),
-    dict(title="Other Ads Design", tags=None, href="https://www.figma.com/design/Sp9hHC3WiIq77BEGOhXxiL/Eben-s-Portfolio-Site?node-id=0-1", preview=None, arrow="arrow-a.svg", external=True),
     dict(title="Pulse/Makina", tags="Brand Design / Social Media / Editorial / Email Design", href=None, preview="hover-pulse.webp", arrow="arrow-a.svg", soon=True),
 ]
 
